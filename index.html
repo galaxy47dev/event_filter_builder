@@ -165,7 +165,12 @@ prefectures.forEach(p=>{
  );
 });
 
-let conditions=[];
+let conditions = data.map(c => ({
+  weekdays: c.weekdays || [],
+  prefectures: c.prefectures || [],
+  require: c.require || [],
+  exclude: c.exclude || []
+}));
 let editIndex=-1;
 
 const saveBtn=document.getElementById("saveBtn");
