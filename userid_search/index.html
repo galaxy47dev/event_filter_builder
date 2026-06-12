@@ -1,0 +1,128 @@
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>LINE UserID取得</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+body{
+  font-family:sans-serif;
+  max-width:800px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+h1{
+  text-align:center;
+}
+
+#userId{
+  width:100%;
+  padding:12px;
+  font-family:monospace;
+  font-size:16px;
+  box-sizing:border-box;
+  margin-top:20px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.help{
+  margin-top:20px;
+  color:#666;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<h1>LINE UserID取得</h1>
+
+<p>
+このページでLINEログインすると、
+あなたのUserIDを取得できます。
+</p>
+
+<input
+  id="userId"
+  type="text"
+  readonly
+  placeholder="LINEログイン中..."
+>
+
+<button onclick="copyUserId()">
+UserIDをコピー
+</button>
+
+<div class="help">
+コピーしたUserIDを指定された場所へ貼り付けてください
+</div>
+
+<script>
+
+const LIFF_ID = "ここにLIFF IDを入力";
+
+async function initLiff(){
+
+  try{
+
+    await liff.init({
+      liffId: LIFF_ID
+    });
+
+    if(!liff.isLoggedIn()){
+      liff.login();
+      return;
+    }
+
+    const profile = await liff.getProfile();
+
+    document.getElementById("userId").value =
+      profile.userId;
+
+  }catch(err){
+
+    console.error(err);
+
+    document.getElementById("userId").value =
+      "取得失敗: " + err.message;
+  }
+}
+
+async function copyUserId(){
+
+  const value =
+    document.getElementById("userId").value;
+
+  if(!value || value.startsWith("取得失敗")){
+    return;
+  }
+
+  try{
+
+    await navigator.clipboard.writeText(value);
+
+    alert("コピーしました");
+
+  }catch(err){
+
+    alert("コピーに失敗しました");
+  }
+}
+
+initLiff();
+
+</script>
+
+</body>
+</html>
+```
