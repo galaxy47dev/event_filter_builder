@@ -79,6 +79,7 @@ body{font-family:sans-serif;max-width:1200px;margin:auto;padding:20px}
   white-space:pre-wrap;
 }
 
+#setting-output,
 #json-output{
   min-height:300px;
   font-family:monospace;
@@ -366,10 +367,10 @@ function applyJson(){
     }
 
     conditions = data.map(c => ({
-      weekdays: c.weekdays || [],
-      prefectures: c.prefectures || [],
-      require: c.require || [],
-      exclude: c.exclude || []
+      weekdays: Array.isArray(c.weekdays) ? c.weekdays : [],
+      prefectures: Array.isArray(c.prefectures) ? c.prefectures : [],
+      require: Array.isArray(c.require) ? c.require : [],
+      exclude: Array.isArray(c.exclude) ? c.exclude : []
     }));
 
     renderCards();
