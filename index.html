@@ -340,11 +340,6 @@ function saveCondition(){
  }
 
  editor.close();
- 
-[...document.querySelectorAll("#editor input")].forEach(el=>{
- el.addEventListener("input",refreshDialogButtons);
- el.addEventListener("change",refreshDialogButtons);
-});
 
 renderCards();
 
